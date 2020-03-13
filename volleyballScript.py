@@ -5,6 +5,7 @@ import os
 from enum import Enum
 import datetime
 import json
+import sys
 
 class Kurse(Enum):
 	Montag = "48098"
@@ -24,14 +25,30 @@ def getKursPostfix(tag):
 	"Spielkurs" : Kurse.Spielkurs.value
 	}[tag]
 
+def isValidArg(arg):
+	return {
+	"Mo" : True,
+	"Mi" : True,
+	"Do" : True,
+	"Sa" : True,
+	"So" : True,
+	"Spielkurs" : True,
+	}.get(arg, False)
+
 kursPrefix = "BS_Kursid_"
 buchenButtonPrefix = "BS_Termin_"
 THISPATH = os.path.dirname(os.path.abspath(__file__))
 DRIVER_DIR = os.path.abspath(THISPATH + "/chromedriver")
 
-usr_input = "Mo/Spielkurs/Mi/Do/Sa/So/: "
-while usr_input not in [ "Mo", "Mi","Do", "Sa", "So", "Spielkurs"]:
-    usr_input = input("Mo/Spielkurs/Mi/Do/Sa/So/: ")
+#usr_input = "Mo/Spielkurs/Mi/Do/Sa/So/: "
+#while usr_input not in [ "Mo", "Mi","Do", "Sa", "So", "Spielkurs"]:
+#    usr_input = input("Mo/Spielkurs/Mi/Do/Sa/So/: ")
+#tag = usr_input
+
+tag = ""
+if len(sys.argv) > 1 and isValidArg(sys.argv[1]):
+	tag = sys.argv[1]
+else: raise ValueError('argument not valid')
 
 #init driver
 chrome_options = Options()
@@ -41,7 +58,7 @@ driver = webdriver.Chrome(options=chrome_options, executable_path = DRIVER_DIR)
 #load site
 driver.get("https://buchung.hochschulsport-hamburg.de/angebote/Wintersemester_2019_2020/_Volleyball.html")
 #select and click correct 'vormerken' button for kurs
-vormerken = driver.find_element_by_name(kursPrefix + getKursPostfix(usr_input)).click()
+vormerken = driver.find_element_by_name(kursPrefix + getKursPostfix(tag)).click()
 #go to new page
 window_after = driver.window_handles[1]
 driver.switch_to.window(window_after)
