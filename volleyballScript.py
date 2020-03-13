@@ -27,13 +27,19 @@ def getKursPostfix(tag):
 
 def isValidArg(arg):
 	return {
-	"Mo" : True,
-	"Mi" : True,
-	"Do" : True,
-	"Sa" : True,
-	"So" : True,
-	"Spielkurs" : True,
+	"Mo" 		: True,
+	"Mi" 		: True,
+	"Do" 		: True,
+	"Sa" 		: True,
+	"So"        : True,
+	"Spielkurs" : True
 	}.get(arg, False)
+
+def isValidPerson(person):
+	return {
+	"Felix" 	: True,
+	"Clara" 	: True
+	}.get(person, False)
 
 kursPrefix = "BS_Kursid_"
 buchenButtonPrefix = "BS_Termin_"
@@ -46,9 +52,11 @@ DRIVER_DIR = os.path.abspath(THISPATH + "/chromedriver")
 #tag = usr_input
 
 tag = ""
-if len(sys.argv) > 1 and isValidArg(sys.argv[1]):
+signUpUser = ""
+if len(sys.argv) > 2 and isValidArg(sys.argv[1]) and isValidPerson(sys.argv[2]):
 	tag = sys.argv[1]
-else: raise ValueError('argument not valid, valid arguments are: Mo/Spielkurs/Mi/Do/Sa/So')
+	signUpUser = sys.argv[2]
+else: raise ValueError('argument not valid,\nValid arguments are:\n1: Mo/Spielkurs/Mi/Do/Sa/So\n2: Felix/Clara')
 
 #init driver
 chrome_options = Options()
@@ -76,9 +84,10 @@ password = ""
 with open('credentials.json') as json_file:
 	data = json.load(json_file)
 	for person in data["people"]:
-		email = person["credentials"]["email"]
-		password = person["credentials"]["pwd"]
-		break
+		if person["name"] == signUpUser:
+			email = person["credentials"]["email"]
+			password = person["credentials"]["pwd"]
+			break
 #find and fill email field
 emailField = driver.find_element_by_name("pw_email")
 emailField.send_keys(email)
@@ -91,5 +100,6 @@ driver.find_element_by_xpath("/html/body/form/div/div[2]/div[1]/div[5]/div[1]/di
 driver.find_element_by_xpath("/html/body/form/div/div[3]/div[2]/label/input").click()
 #find and click 'weiter zur buchung' button
 driver.find_element_by_xpath("/html/body/form/div/div[3]/div[3]/div[2]/input").click()
-#find and click 'verbindlich buchen' button 
+#find and click 'verbindlich buchen' button
 driver.find_element_by_xpath("/html/body/form/div/div[3]/div[1]/div[2]/input").click()
+print("Success!")
