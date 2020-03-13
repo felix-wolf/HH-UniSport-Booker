@@ -5,7 +5,6 @@ from enum import Enum
 import datetime
 import json
 
-
 class Kurse(Enum):
 	Montag = "48098"
 	Mittwoch = "48092"
@@ -14,7 +13,7 @@ class Kurse(Enum):
 	Sonntag = "48097"
 	Spielkurs = "48101"
 
-def kurs(tag):
+def getKursPostfix(tag):
 	return {
 	"Mo" : Kurse.Montag.value,
 	"Mi" : Kurse.Mittwoch.value,
@@ -36,12 +35,12 @@ while usr_input not in [ "Mo", "Mi","Do", "Sa", "So", "Spielkurs"]:
 #load site
 driver = webdriver.Chrome(executable_path = DRIVER_DIR)
 driver.get("https://buchung.hochschulsport-hamburg.de/angebote/Wintersemester_2019_2020/_Volleyball.html")
-#select and click right vormerken button for kurs
-vormerken = driver.find_element_by_name(kursPrefix + kurs(usr_input)).click()
+#select and click correct 'vormerken' button for kurs
+vormerken = driver.find_element_by_name(kursPrefix + getKursPostfix(usr_input)).click()
 #go to new page
 window_after = driver.window_handles[1]
 driver.switch_to.window(window_after)
-#select and click buchen button
+#select and click 'buchen' button
 driver.find_element_by_xpath("/html/body/form/div/div[2]/div/div[2]/div[1]/label/div[2]/input").click()
 #go to new page
 window_after = driver.window_handles[1]
@@ -49,7 +48,7 @@ driver.switch_to.window(window_after)
 #execute javascript to show login window
 element = driver.find_element_by_id("bs_pw_anmlink")
 driver.execute_script("arguments[0].click();", element)
-#load credentials json
+#load credentials.json
 email = ""
 password = ""
 with open('credentials.json') as json_file:
@@ -66,9 +65,6 @@ passwordField = driver.find_element_by_xpath("/html/body/form/div/div[2]/div[1]/
 passwordField.send_keys(password)
 #find 'weiter zur Buchung' button and click it
 driver.find_element_by_xpath("/html/body/form/div/div[2]/div[1]/div[5]/div[1]/div[2]/input").click()
-#go to new page
-window_after = driver.window_handles[1]
-driver.switch_to.window(window_after)
 #select checkbox 'AGB'
 driver.find_element_by_xpath("/html/body/form/div/div[3]/div[2]/label/input").click()
 #find and click 'weiter zur buchung' button
