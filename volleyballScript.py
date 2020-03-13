@@ -40,15 +40,15 @@ buchenButtonPrefix = "BS_Termin_"
 THISPATH = os.path.dirname(os.path.abspath(__file__))
 DRIVER_DIR = os.path.abspath(THISPATH + "/chromedriver")
 
-#usr_input = "Mo/Spielkurs/Mi/Do/Sa/So/: "
+#usr_input = "Mo/Spielkurs/Mi/Do/Sa/So: "
 #while usr_input not in [ "Mo", "Mi","Do", "Sa", "So", "Spielkurs"]:
-#    usr_input = input("Mo/Spielkurs/Mi/Do/Sa/So/: ")
+#    usr_input = input("Mo/Spielkurs/Mi/Do/Sa/So: ")
 #tag = usr_input
 
 tag = ""
 if len(sys.argv) > 1 and isValidArg(sys.argv[1]):
 	tag = sys.argv[1]
-else: raise ValueError('argument not valid')
+else: raise ValueError('argument not valid, valid arguments are: Mo/Spielkurs/Mi/Do/Sa/So')
 
 #init driver
 chrome_options = Options()
