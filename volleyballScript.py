@@ -1,5 +1,6 @@
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.chrome.options import Options
 import os
 from enum import Enum
 import datetime
@@ -32,8 +33,12 @@ usr_input = "Mo/Spielkurs/Mi/Do/Sa/So/: "
 while usr_input not in [ "Mo", "Mi","Do", "Sa", "So", "Spielkurs"]:
     usr_input = input("Mo/Spielkurs/Mi/Do/Sa/So/: ")
 
+#init driver
+chrome_options = Options()
+chrome_options.add_argument('--headless')
+driver = webdriver.Chrome(options=chrome_options, executable_path = DRIVER_DIR)
+
 #load site
-driver = webdriver.Chrome(executable_path = DRIVER_DIR)
 driver.get("https://buchung.hochschulsport-hamburg.de/angebote/Wintersemester_2019_2020/_Volleyball.html")
 #select and click correct 'vormerken' button for kurs
 vormerken = driver.find_element_by_name(kursPrefix + getKursPostfix(usr_input)).click()
@@ -71,7 +76,3 @@ driver.find_element_by_xpath("/html/body/form/div/div[3]/div[2]/label/input").cl
 driver.find_element_by_xpath("/html/body/form/div/div[3]/div[3]/div[2]/input").click()
 #find and click 'verbindlich buchen' button 
 driver.find_element_by_xpath("/html/body/form/div/div[3]/div[1]/div[2]/input").click()
-
-
-
-
