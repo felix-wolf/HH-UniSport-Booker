@@ -38,8 +38,8 @@ def configureDriver():
 
 	# Start a new instance of the Chrome browser
 	options = webdriver.ChromeOptions()
-	optiones.headless = True
-	driver = webdriver.Chrome(options=options)
+	options.headless = True
+	driver = webdriver.Chrome(executable_path = DRIVER_DIR, options=options)
 	return driver
 
 
