@@ -28,8 +28,8 @@ def getKursPostfix(day):
 
 ### configures the driver by getting the executable etc.
 def configureDriver():
-	THISPATH = os.path.dirname(os.path.abspath(__file__))
-	DRIVER_DIR = str(os.path.abspath(THISPATH + "/chromedriver"))
+	this_path = os.path.dirname(os.path.abspath(__file__))
+	driver_dir = str(os.path.abspath(this_path + "/chromedriver"))
 
 	#usr_input = "Mo/Spielkurs/Mi/Do/Sa/So: "
 	#while usr_input not in [ "Mo", "Mi","Do", "Sa", "So", "Spielkurs"]:
@@ -39,7 +39,7 @@ def configureDriver():
 	# Start a new instance of the Chrome browser
 	options = webdriver.ChromeOptions()
 	options.headless = True
-	driver = webdriver.Chrome(executable_path = DRIVER_DIR, options=options)
+	driver = webdriver.Chrome(executable_path = driver_dir, options=options)
 	return driver
 
 
@@ -76,7 +76,7 @@ def bookCourse(driver):
 	#load credentials.json
 	email = ""
 	password = ""
-	with open('credentials.json') as json_file:
+	with open(os.path.dirname(os.path.abspath(__file__)) + '/credentials.json') as json_file:
 		data = json.load(json_file)
 		for person in data["users"]:
 			email = person["email"]
