@@ -38,8 +38,8 @@ def configureDriver():
 
 	# Start a new instance of the Chrome browser
 	options = webdriver.ChromeOptions()
-	optiones.headless = True
-	driver = webdriver.Chrome(options=options)
+	options.add_argument('--headless')
+	driver = webdriver.Chrome(executable_path = driver_dir, options = options)
 	return driver
 
 
@@ -53,25 +53,43 @@ def bookCourse(driver):
 		day = sys.argv[1]
 	else: raise ValueError('argument not valid, valid arguments are: Mo/Spielkurs/Mi/Do/Sa/So')
 
+	print("cli argument was valid")
+
 	#load site
 	driver.get("https://buchung.hochschulsport-hamburg.de/angebote/Wintersemester_2022_2023/_Volleyball.html")
 
-	#select and click correct 'vormerken' button for kurs
+	print("site loaded")
+
+	sleep()
+
+	#select and click correct button for kurs
 	vormerken = driver.find_element("name", kursPrefix + getKursPostfix(day)).click()
+
+	sleep()
 
 	#go to new page
 	window_after = driver.window_handles[1]
 	driver.switch_to.window(window_after)
 
 	#select and click 'buchen' button
-	driver.find_element("xpath", "/html/body/form/div/div[2]/div/div[2]/div[1]/label/div[2]/input").click()
+	buchenButton = driver.find_element("xpath", "/html/body/form/div/div[2]/div/div[2]/div[1]/label/div[2]/input")
+
+	if buchenButton.get_attribute("value") != "buchen":
+		print("No availability in course! Aborting...")
+		return
+
+	buchenButton.click()
 	#go to new page
 	window_after = driver.window_handles[1]
 	driver.switch_to.window(window_after)
 
+	sleep()
+
 	#execute javascript to show login window
 	element = driver.find_element("id", "bs_pw_anmlink")
 	driver.execute_script("arguments[0].click();", element)
+
+	sleep()
 
 	#load credentials.json
 	email = ""
@@ -102,6 +120,10 @@ def bookCourse(driver):
 
 	sleep()
 
+	driver.save_screenshot('login.png')
+
+	sleep()
+
 	#select checkbox 'AGB'
 	driver.find_element("xpath", "/html/body/form/div/div[3]/div[2]/label/input").click()
 
@@ -115,12 +137,19 @@ def bookCourse(driver):
 	#find and click 'verbindlich buchen' button
 	driver.find_element("xpath", "/html/body/form/div/div[3]/div[1]/div[2]/input").click()
 
+	sleep()
+
+	driver.save_screenshot('final_page.png')
+	print("booked course")
 
 def sleep():
 	### adds artificial slowdown to allow browser to handle request.
-	time.sleep(3)
+	time.sleep(2)
 
 if __name__ == '__main__':
+	print("start")
 	driver = configureDriver()
+	print("configured driver")
 	bookCourse(driver)
 	driver.quit()
+	print("end")
