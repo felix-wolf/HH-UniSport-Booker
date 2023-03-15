@@ -7,6 +7,7 @@ from enum import Enum
 import json
 import sys
 import time
+import platform
 
 class Kurse(Enum):
 	Stufe1 = "70241"
@@ -39,7 +40,12 @@ def configureDriver():
 	# Start a new instance of the Chrome browser
 	options = webdriver.ChromeOptions()
 	options.add_argument('--headless')
-	driver = webdriver.Chrome(executable_path = driver_dir, options = options)
+	if platform.system() == "Linux":
+		print("is linux")
+		driver = webdriver.Chrome(executable_path = driver_dir, options = options)
+	elif platform.system() == "Darwin":
+		print("is mac")
+		driver = webdriver.Chrome(options=options)
 	return driver
 
 
