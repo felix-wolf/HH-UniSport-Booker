@@ -1,8 +1,3 @@
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.chrome.options import Options
-from webdriver_manager.chrome import ChromeDriverManager
-import os
 from enum import Enum
 import json
 import sys
@@ -27,30 +22,8 @@ def getKursPostfix(day):
 	"Spielkurs" : Kurse.Spielkurs.value
 	}.get(day, None)
 
-### configures the driver by getting the executable etc.
-def configureDriver():
-	this_path = os.path.dirname(os.path.abspath(__file__))
-	driver_dir = str(os.path.abspath(this_path + "/chromedriver"))
-
-	#usr_input = "Mo/Spielkurs/Mi/Do/Sa/So: "
-	#while usr_input not in [ "Mo", "Mi","Do", "Sa", "So", "Spielkurs"]:
-	#    usr_input = input("Mo/Spielkurs/Mi/Do/Sa/So: ")
-	#tag = usr_input
-
-	# Start a new instance of the Chrome browser
-	options = webdriver.ChromeOptions()
-	options.add_argument('--headless')
-	if platform.system() == "Linux":
-		print("is linux")
-		driver = webdriver.Chrome(executable_path = driver_dir, options = options)
-	elif platform.system() == "Darwin":
-		print("is mac")
-		driver = webdriver.Chrome(options=options)
-	return driver
-
-
 ### books the specified course
-def bookCourse(driver):
+def bookCourse(driver, email, password):
 	kursPrefix = "BS_Kursid_"
 	buchenButtonPrefix = "BS_Termin_"
 
@@ -97,18 +70,6 @@ def bookCourse(driver):
 
 	sleep()
 
-	#load credentials.json
-	email = ""
-	password = ""
-	with open(os.path.dirname(os.path.abspath(__file__)) + '/credentials.json') as json_file:
-		data = json.load(json_file)
-		for person in data["users"]:
-			email = person["email"]
-			password = person["pwd"]
-			break
-
-	sleep()
-
 	#find and fill email field
 	emailField = driver.find_element("name", "pw_email")
 	emailField.send_keys(email)
@@ -151,11 +112,3 @@ def bookCourse(driver):
 def sleep():
 	### adds artificial slowdown to allow browser to handle request.
 	time.sleep(2)
-
-if __name__ == '__main__':
-	print("start")
-	driver = configureDriver()
-	print("configured driver")
-	bookCourse(driver)
-	driver.quit()
-	print("end")
