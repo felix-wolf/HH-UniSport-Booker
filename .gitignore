@@ -157,3 +157,6 @@ credentials.json
 
 # exclude chromedriver
 chromedriver
+
+# exclude virtual environment
+venv
