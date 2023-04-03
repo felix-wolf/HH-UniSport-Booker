@@ -5,16 +5,18 @@ import time
 import platform
 
 class Kurse(Enum):
-	Stufe1 = "70241"
-	Stufe2a = "70242"
-	Stufe2b = "70243"
-	Stufe23 = "70244"
-	Stufe3 = "70245"
-	Spielkurs = "70246"
+	Stufe1a = "70346"
+    Stufe1b = "72713"
+	Stufe2a = "70351"
+	Stufe2b = "70352"
+	Stufe23 = "70358"
+	Stufe3 = "70361"
+	Spielkurs = "70365"
 
 def getKursPostfix(day):
 	return {
-	"1" : Kurse.Stufe1.value,
+	"1a" : Kurse.Stufe1a.value,
+    "1b" : Kurse.Stufe1b.value,
 	"2a" : Kurse.Stufe2a.value,
 	"2b" : Kurse.Stufe2b.value,
 	"23" : Kurse.Stufe23.value,
@@ -30,12 +32,12 @@ def bookCourse(driver, email, password):
 	day = ""
 	if len(sys.argv) > 1 and getKursPostfix(sys.argv[1]) is not None:
 		day = sys.argv[1]
-	else: raise ValueError('argument not valid, valid arguments are: Mo/Spielkurs/Mi/Do/Sa/So')
+	else: raise ValueError('argument not valid, valid arguments are: 1a/1b/2a/2b/23/3/Spielkurs')
 
 	print("cli argument was valid")
 
 	#load site
-	driver.get("https://buchung.hochschulsport-hamburg.de/angebote/Wintersemester_2022_2023/_Volleyball.html")
+	driver.get("https://buchung.hochschulsport-hamburg.de/angebote/Sommersemester_2023/_Volleyball.html")
 
 	print("site loaded")
 
