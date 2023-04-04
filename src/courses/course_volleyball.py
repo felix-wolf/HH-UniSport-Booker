@@ -6,7 +6,7 @@ import platform
 
 class Kurse(Enum):
 	Stufe1a = "70346"
-    Stufe1b = "72713"
+	Stufe1b = "72713"
 	Stufe2a = "70351"
 	Stufe2b = "70352"
 	Stufe23 = "70358"
@@ -52,14 +52,19 @@ def bookCourse(driver, email, password):
 	window_after = driver.window_handles[1]
 	driver.switch_to.window(window_after)
 
-	#select and click 'buchen' button
-	buchenButton = driver.find_element("xpath", "/html/body/form/div/div[2]/div/div[2]/div[1]/label/div[2]/input")
+	try:
+		#select and click 'buchen' button
+		buchenButton = driver.find_element("xpath", "/html/body/form/div/div[2]/div/div[2]/div[1]/label/div[2]/input")
 
-	if buchenButton.get_attribute("value") != "buchen":
-		print("No availability in course! Aborting...")
+		if buchenButton.get_attribute("value") != "buchen":
+			print("No availability in course! Aborting...")
+			return
+
+		buchenButton.click()
+	except:
+		print("Buchen button not found.")
 		return
 
-	buchenButton.click()
 	#go to new page
 	window_after = driver.window_handles[1]
 	driver.switch_to.window(window_after)
