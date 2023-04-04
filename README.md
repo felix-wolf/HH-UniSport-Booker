@@ -1,30 +1,46 @@
-# VolleyballScript
-A python script to automatically sign up for volleyball courses at Hochschulsport Hambug.
+# HH-UniSport-Booker
+
+A python script to automatically sign up for specified courses at Hochschulsport Hambug.
 
 The script mimics a browser by using selenium.
 
-Needed login details are to be stored in a json file at root level, which is not tracked in git.
+In order to register for a new course, configure a json file named `bookings.json` as shown in the template.
+
+The json needs the password of the user but is NOT tracked by git.
 
 ### Json Format:
 
 ```json
-{
-	"users": [
-		{
-			"email": "<value>",
-			"pwd": "<value>"
+[
+	{
+		"user": {
+			"email": "<email>",
+			"password": "<password>"
+		},
+		"course": {
+			"name": "<nameOfCourse>",
+			"level": "<nameOfLevel>"
+		},
+		"timeToBook": {
+			"day": "1/2/3/4/5/6/7",
+			"time": "hh:mm"
 		}
-	]
-}
+	}
+]
 ```
 
 ### Execution
 
-Call the script with the appropiate command line arguments to automatically enrole in a course.
+Ideally, the script is executed every 30 minutes as a cronjob.
 
-Example: ```python volleyballScript.py 3``` where 3 is the Stufe you want to go to.
+Call: ```python3 main.py```
 
-Stufe options are: 1, 2a, 2b, 23, 3, Spielkurs.
+Furthermore, if you use an virtual environment for the dependencies, this is needed cronjob:
+
+```
+*/30 * * * * <pathToFolder>/volleyballScript/venv/bin/python <pathToFolder>/volleyballScript/src/main.py >> /tmp/log.txt
+
+```
 
 ## Setup
 
