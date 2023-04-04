@@ -1,5 +1,6 @@
 from driver_configurator import configureDriver
-from courses.course_volleyball import bookCourse
+from course_booker import bookCourse
+from utils import timeIsNow
 import os
 import json
 
@@ -9,13 +10,18 @@ if __name__ == '__main__':
 	print("configured driver")
 
 	#load credentials.json
-	with open(os.path.dirname(os.path.abspath(__file__)) + '/credentials.json') as json_file:
+	with open(os.path.dirname(os.path.abspath(__file__)) + '/bookings.json') as json_file:
 		data = json.load(json_file)
-		for person in data["users"]:
-			email = person["email"]
-			password = person["pwd"]
-			print("book course for user with email " + email)
-			bookCourse(driver, email, password)
+		for entry in data:
+			user = entry["user"]
+			course = entry["course"]
+			time_to_book = entry["timeToBook"]
+
+			if timeIsNow(time_to_book):
+				email = user["email"]
+				password = user["password"]
+				print("book course for user with email " + email)
+				bookCourse(course["name"], course["level"], email, password, driver)
 
 	driver.quit()
 	print("end")

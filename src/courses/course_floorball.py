@@ -2,13 +2,8 @@ from utils import sleep
 
 def getCourseId(level):
 	return {
-	"1a" : "70346",
-    "1b" : "72713",
-	"2a" : "70351",
-	"2b" : "70352",
-	"23" : "70358",
-	"3" : "70361",
-	"Spielkurs" : "70365"
+	"1" : "70381",
+	"23" : "70382",
 	}.get(level, None)
 
 ### books the specified course
@@ -17,7 +12,7 @@ def bookCourse(level, driver):
 	buchenButtonPrefix = "BS_Termin_"
 
 	#load site
-	driver.get("https://buchung.hochschulsport-hamburg.de/angebote/Sommersemester_2023/_Volleyball.html")
+	driver.get("https://buchung.hochschulsport-hamburg.de/angebote/Sommersemester_2023/_Floorball.html")
 
 	print("site loaded")
 
