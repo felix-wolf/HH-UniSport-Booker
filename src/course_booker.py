@@ -70,11 +70,12 @@ def performBookingProcedure(driver, email, password):
 
 
 def bookCourse(courseName, level, email, password, driver):
-	match courseName:
-		case "volleyball":	driver = bookVolleyballCourse(level, driver)
-		case "floorball":	driver = bookFloorballCourse(level, driver)
-		case _:
-			print("courseName not found")
-			return
+	if courseName == "volleyball":
+		driver = bookVolleyballCourse(level, driver)
+	elif courseName == "floorball":
+		driver = bookFloorballCourse(level, driver)
+	else:
+		print("courseName not found")
+		return
 
 	performBookingProcedure(driver, email, password)
