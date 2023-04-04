@@ -152,8 +152,8 @@ dmypy.json
 
 # End of https://www.gitignore.io/api/linux,macos,python
 
-# exlude credentials.json
-credentials.json
+# exlude bookings.json
+bookings.json
 
 # exclude chromedriver
 chromedriver
