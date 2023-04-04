@@ -3,7 +3,7 @@ from utils import sleep
 def getCourseId(level):
 	return {
 	"1" : "70381",
-	"23" : "70382",
+	"12" : "70382",
 	}.get(level, None)
 
 ### books the specified course
