@@ -22,6 +22,8 @@ if __name__ == '__main__':
 				password = user["password"]
 				print("book course for user with email " + email)
 				bookCourse(course["name"], course["level"], email, password, driver)
+			else:
+				print("time difference to large to book, return.")
 
 	driver.quit()
 	print("end")
