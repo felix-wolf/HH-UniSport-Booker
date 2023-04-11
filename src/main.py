@@ -14,16 +14,18 @@ if __name__ == '__main__':
 		data = json.load(json_file)
 		for entry in data:
 			user = entry["user"]
-			course = entry["course"]
-			time_to_book = entry["timeToBook"]
+			courses = entry["courses"]
+			for course_entry in courses:
+				course = course_entry["course"]
+				time_to_book = course_entry["timeToBook"]
 
-			if timeIsNow(time_to_book):
-				email = user["email"]
-				password = user["password"]
-				print("book course for user with email " + email)
-				bookCourse(course["name"], course["level"], email, password, driver)
-			else:
-				print("time difference to large to book, return.")
+				if timeIsNow(time_to_book):
+					email = user["email"]
+					password = user["password"]
+					print("book course for user with email " + email)
+					bookCourse(course["name"], course["level"], email, password, driver)
+				else:
+					print("time difference to large to book, return.")
 
 	driver.quit()
-	print("end")
+	print("end\n")

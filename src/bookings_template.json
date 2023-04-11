@@ -4,13 +4,17 @@
 			"email": "<email>",
 			"password": "<password>"
 		},
-		"course": {
-			"name": "<nameOfCourse>",
-			"level": "<nameOfLevel>"
-		},
-		"timeToBook": {
-			"day": "1/2/3/4/5/6/7",
-			"time": "hh:mm"
-		}
+		"courses": [
+			{
+				"course": {
+					"name": "<nameOfCourse>",
+					"level": "<nameOfLevel>"
+				},
+				"timeToBook": {
+					"day": "1/2/3/4/5/6/7",
+					"time": "hh:mm"
+				}
+			}
+		]
 	}
 ]
