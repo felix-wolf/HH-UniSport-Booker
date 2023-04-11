@@ -1,6 +1,7 @@
 from utils import sleep
 from courses.course_volleyball import bookCourse as bookVolleyballCourse
 from courses.course_floorball import bookCourse as bookFloorballCourse
+import datetime
 
 def performBookingProcedure(driver, email, password):
 	#go to new page
@@ -64,7 +65,7 @@ def performBookingProcedure(driver, email, password):
 
 	sleep()
 
-	driver.save_screenshot("screenshots/final_page_" + email + ".png")
+	driver.save_screenshot("screenshots/final_page" + "-" + email + "-" + str(datetime.datetime.now()) + ".png")
 
 	print("booked course")
 
