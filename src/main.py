@@ -9,7 +9,7 @@ if __name__ == '__main__':
 	driver = configureDriver()
 	print("configured driver")
 
-	#load credentials.json
+	# load credentials.json
 	with open(os.path.dirname(os.path.abspath(__file__)) + '/bookings.json') as json_file:
 		data = json.load(json_file)
 		for entry in data:
